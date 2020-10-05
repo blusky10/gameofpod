@@ -1,0 +1,16 @@
+# Create new PersistentVolumeClaim = 'data-pvc'
+# PersistentVolume = 'data-pvc', accessModes = 'ReadWriteMany'
+# PersistentVolume = 'data-pvc', storage request = '1Gi'
+# PersistentVolume = 'data-pvc', volumeName = 'data-pv'
+
+apiVersion: v1
+kind: PersistentVolumeClaim
+metadata:
+  name: data-pvc
+spec:
+  accessModes:
+    - ReadWriteMany
+  resources:
+    requests:
+      storage: 1Gi
+  volumeName: data-pv

@@ -1,0 +1,19 @@
+# New Service, name: 'gop-fs-service'
+# Service name: gop-fs-service, port: '8080'
+# Service name: gop-fs-service, targetPort: '8080'
+
+apiVersion: v1
+kind: Service
+metadata:
+  labels:
+    app: fs
+  name: gop-fs-service
+spec:
+  ports:
+    - protocol: TCP
+      port: 8080
+      targetPort: 8080
+      nodePort: 31200
+  selector:
+    app: fs
+  type: NodePort

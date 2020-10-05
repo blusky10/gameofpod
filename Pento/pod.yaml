@@ -1,0 +1,24 @@
+# Create a pod for fileserver, name: 'gop-fileserver'
+# pod: gop-fileserver image: 'kodekloud/fileserver'
+# pod: gop-fileserver mountPath: '/web'
+# pod: gop-fileserver volumeMount name: 'data-store'
+# pod: gop-fileserver persistent volume name: data-store
+# pod: gop-fileserver persistent volume claim used: 'data-pvc'
+
+apiVersion: v1
+kind: Pod
+metadata:
+  labels:
+    app: fs
+  name: gop-fileserver
+spec:
+  containers:
+  - name: fs
+    image: kodekloud/fileserver
+    volumeMounts:
+    - mountPath: /web
+      name: data-store
+  volumes:
+  - name: data-store
+    persistentVolumeClaim:
+      claimName: data-pvc
