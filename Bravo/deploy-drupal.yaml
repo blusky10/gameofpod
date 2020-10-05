@@ -1,0 +1,77 @@
+# Deployment Name: drupal
+# Replicas: 1
+# Image: drupal:8.6
+# Deployment has an initContainer, name: 'init-sites-volume'
+# initContainer 'init-sites-volume', image: drupal:8.6
+# initContainer 'init-sites-volume', persistentVolumeClaim: drupal-pvc
+# initContainer 'init-sites-volume', mountPath: /data
+# initContainer 'init-sites-volume', Command: [ "/bin/bash", "-c" ], initContainer: Args: [ 'cp -r /var/www/html/sites/ /data/; chown www-data:www-data /data/ -R' ]
+# Deployment 'drupal' uses correct pvc: drupal-pvc
+# Deployment has a regular container, name: 'drupal', image: 'drupal:8.6'
+# container: 'drupal', Volume mountPath: /var/www/html/modules, subPath: modules
+# container: 'drupal', Volume mountPath: /var/www/html/profiles, subPath: profiles
+# container: 'drupal', Volume mountPath: /var/www/html/sites, subPath: sites
+# container: 'drupal', Volume mountPath: /var/www/html/themes, subPath: themes
+# Deployment: "drupal" running
+# Deployment: 'drupal' has label 'app=drupal'
+
+
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: drupal
+  labels:
+    app: drupal  
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: drupal  
+  template:
+    metadata:
+      labels:
+        app: drupal
+    spec:
+      initContainers:
+      - name: init-sites-volume
+        image: drupal:8.6
+        command: [ "/bin/bash", "-c" ]
+        args: [ 'cp -r /var/www/html/sites/ /data/; chown www-data:www-data /data/ -R' ]
+        volumeMounts:
+        - mountPath: "/data"
+          name: drupal-volume         
+      containers:
+      - name: drupal
+        image: drupal:8.6
+        ports:
+        - containerPort: 80
+        volumeMounts:
+        - mountPath: "/var/www/html/modules"
+          name: drupal-volume
+          subPath: modules
+        - mountPath: "/var/www/html/profiles"
+          name: drupal-volume
+          subPath: profiles
+        - mountPath: "/var/www/html/sites"
+          name: drupal-volume
+          subPath: sites
+        - mountPath: "/var/www/html/themes"
+          name: drupal-volume
+          subPath: themes   
+      volumes:
+        - name: drupal-volume
+          persistentVolumeClaim:
+            claimName: drupal-pvc
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: drupal-service
+spec:
+  type: NodePort
+  ports:
+    - protocol: TCP
+      port: 80
+      nodePort: 30095
+  selector:
+    app: drupal       
