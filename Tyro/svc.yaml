@@ -7,10 +7,14 @@ kind: Service
 metadata:
   name: jekyll
   namespace: development
+  labels: 
+    run: jekyll
 spec:
   ports:
     - protocol: TCP
       port: 8080
       targetPort: 4000
       nodePort: 30097
+  selector:
+    run: jekyll
   type: NodePort

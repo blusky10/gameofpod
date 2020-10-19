@@ -1,7 +1,6 @@
 # 'developer-role', should have all(*) permissions for services in development namespace
 # 'developer-role', should have all permissions(*) for persistentvolumeclaims in development namespace
 # 'developer-role', should have all(*) permissions for pods in development namespace
-
 apiVersion: rbac.authorization.k8s.io/v1
 kind: Role
 metadata:
@@ -9,18 +8,17 @@ metadata:
   namespace: development
 rules:
   - apiGroups:
-      - "*"
+      - ""
     resources:
-      - services
-      - persistentvolumeclaims 
+      - svc
+      - pvc 
       - pods
     verbs:
       - "*"
+# kubectl create role developer-role --resource=pods,svc,pvc --verb="*" --namespace=development
 ---
-
 # create rolebinding = developer-rolebinding, role= 'developer-role', namespace = development
 # rolebinding = developer-rolebinding associated with user = 'drogo'
-
 apiVersion: rbac.authorization.k8s.io/v1
 kind: RoleBinding
 metadata:
@@ -29,7 +27,10 @@ metadata:
 subjects:
   - kind: User
     name: drogo
+    apiGroup: rbac.authorization.k8s.io
 roleRef:
   kind: Role
   name: developer-role
   apiGroup: rbac.authorization.k8s.io
+
+# kubectl create rolebinding developer-rolebinding --role=developer-role --user=drogo --namespace=develpment
