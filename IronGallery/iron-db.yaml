@@ -1,0 +1,45 @@
+# New Deployment, name: 'iron-db'
+# Image: 'kodekloud/irondb:2.0'
+# volume, name = db, type: emptyDir
+# volumeMount, name: 'db', mountPath: '/var/lib/mysql'
+# Replicas: 1
+# env, name: 'MYSQL_ROOT_PASSWORD', value: 'Braavo'
+# env, name: 'MYSQL_DATABASE', value: 'lychee'
+# env, name: 'MYSQL_USER', value: 'lychee'
+# env, name: 'MYSQL_PASSWORD', value: 'lychee'
+# Pod Label: 'db=mariadb'
+
+
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: iron-db
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      db: mariadb
+  template:
+    metadata:
+      labels:
+        db: mariadb
+    spec:
+      containers:
+        - image: kodekloud/irondb:2.0
+          name: mariadb
+          volumeMounts:
+            - name: db
+              mountPath: /var/lib/mysql
+          env:
+            - name: MYSQL_ROOT_PASSWORD
+              value: Braavo
+            - name: MYSQL_DATABASE
+              value: lychee
+            - name: MYSQL_USER
+              value: lychee
+            - name: MYSQL_PASSWORD
+              value: lychee
+      volumes:
+        - name: db
+          emptyDir: {}
+          

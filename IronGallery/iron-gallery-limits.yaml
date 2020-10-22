@@ -1,0 +1,4 @@
+# Deployment: 'iron-gallery', container has CPU limit: '50m'
+# Deployment: 'iron-gallery', container has Memory limit: '100Mi'
+
+kubectl set resources deploy iron-gallery --limits=cpu=50m,memory=100Mi

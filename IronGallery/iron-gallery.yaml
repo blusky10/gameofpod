@@ -1,0 +1,37 @@
+# New Deployment, name: 'iron-gallery'
+# Image: 'kodekloud/irongallery:2.0'
+# volume, name = config, type: emptyDir
+# volume, name = images, type: emptyDir
+# volumeMount, name: 'config', mountPath: '/usr/share/nginx/html/data'
+# volumeMount, name: 'images', mountPath: '/usr/share/nginx/html/uploads'
+# Replicas: 1
+# Pod Label: 'run=iron-gallery'
+
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: iron-gallery
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      run: iron-gallery
+  template:    
+    metadata:
+      labels:
+        run: iron-gallery
+    spec:
+      containers:
+        - image: kodekloud/irongallery:2.0
+          name: iron-gallery
+          volumeMounts:
+            - name: config
+              mountPath: /usr/share/nginx/html/data
+            - name: images
+              mountPath: /usr/share/nginx/html/uploads
+      volumes:
+        - name: config
+          emptyDir: {}
+        - name: images
+          emptyDir: {}
+
