@@ -1,0 +1,15 @@
+# Access modes: ReadWriteOnce
+# Volume Name: drupal-pv
+# Storage: 5Gi
+
+apiVersion: v1
+kind: PersistentVolume
+metadata:
+ name: drupal-pv
+spec:
+ accessModes:
+   - ReadWriteOnce
+ capacity:
+   storage: 5Gi
+ hostPath:
+   path: /drupal-data

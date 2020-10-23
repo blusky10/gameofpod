@@ -1,0 +1,15 @@
+# Name: drupal-mysql-service
+# Type: ClusterIP
+# Port: 3306
+
+apiVersion: v1
+kind: Service
+metadata:
+  name: drupal-mysql-service
+spec:
+  ports:
+    - protocol: TCP
+      port: 3306
+      targetPort: 3306
+  selector:
+    app: drupal-mysql              
