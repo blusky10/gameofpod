@@ -1,8 +1,7 @@
 ## drpal-pv-hostpath, drupal-mysql-pv-hostpath
 
-> /drupal-mysql-data (create the directory on Worker Nodes)
-> 
-> /drupal-data (create the directory on Worker Nodes)
+> /drupal-mysql-data (create the directory on Worker Nodes)  
+/drupal-data (create the directory on Worker Nodes)
 
   * connect node01 : ssh node01
   * mkdir /drupal-mysql-data

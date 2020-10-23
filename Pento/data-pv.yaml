@@ -2,6 +2,7 @@
 # PersistentVolume = data-pv, accessModes = 'ReadWriteMany'
 # PersistentVolume = data-pv, hostPath = '/web'
 # PersistentVolume = data-pv, storage = '1Gi'
+
 apiVersion: v1
 kind: PersistentVolume
 metadata:
@@ -13,15 +14,3 @@ spec:
     path: /web
   capacity:
     storage: 1Gi
----
-apiVersion: v1
-kind: PersistentVolumeClaim
-metadata:
-  name: data-pvc
-spec:
-  accessModes:
-    - ReadWriteMany
-  resources:
-    requests:
-      storage: 1Gi
-  volumeName: data-pv
