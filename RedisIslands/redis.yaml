@@ -1,72 +1,77 @@
-# StatefulSet - Name: redis-cluster
-# Replicas: 6
-# Pods status: Running (All 6 replicas)
-# Image: redis:5.0.1-alpine
+# PersistentVolume - Name: redis01
+# Access modes: ReadWriteOnce
+# Size: 1Gi
+# hostPath: /redis01, directory should be created on worker node
 
-# container name: redis, command: ["/conf/update-node.sh", "redis-server", "/conf/redis.conf"]
-# Env: name: 'POD_IP', valueFrom: 'fieldRef', fieldPath: 'status.podIP' (apiVersion: v1)
-# Ports - name: 'client', containerPort: '6379'
-# Ports - name: 'gossip', containerPort: '16379'
-
-# Volume Mount - name: 'conf', mountPath: '/conf', readOnly:'false' (ConfigMap Mount)
-# Volume Mount - name: 'conf', mountPath: '/conf', defaultMode = '0755' (ConfigMap Mount)
-# Volume Mount - name: 'data', mountPath: '/data', readOnly:'false' (volumeClaim)
-
-# volumes - name: 'conf', Type: 'ConfigMap', ConfigMap Name: 'redis-cluster-configmap',
-# volumeClaimTemplates - name: 'data'
-# volumeClaimTemplates - accessModes: 'ReadWriteOnce'
-# volumeClaimTemplates - Storage Request: '1Gi'
-
-
-apiVersion: apps/v1
-kind: StatefulSet
+apiVersion: v1
+kind: PersistentVolume
 metadata:
-  name: redis-cluster
+  name: redis01
 spec:
-  selector:
-    matchLabels:
-      app: redis-cluster
-  serviceName: redis-cluster
-  replicas: 6
-  template:
-    metadata:
-      labels:
-        app: redis-cluster
-    spec:
-      containers:
-      - name: redis
-        image: redis:5.0.1-alpine
-        command: ["/conf/update-node.sh", "redis-server", "/conf/redis.conf"]
-        env:
-        - name: POD_IP
-          valueFrom:
-            fieldRef:
-              fieldPath: status.podIP
-        ports:
-        - name: client
-          containerPort: 6379
-        - name: gossip
-          containerPort: 16379
-        volumeMounts:
-        - name: conf
-          mountPath: /conf
-          readOnly: false
-        - name: data
-          mountPath: /data            
-          readOnly: false
-      volumes:
-      - name: conf
-        configMap:
-          name: redis-cluster-configmap
-          defaultMode: 0755          
-  volumeClaimTemplates:
-  - metadata:
-      name: data
-    spec:
-      accessModes:
-      - ReadWriteOnce
-      resources:
-        requests:
-          storage: 1Gi        
-
-
+  accessModes:
+    - ReadWriteOnce
+  hostPath:
+    path: /redis01
+  capacity:
+    storage: 1Gi
+---    
+apiVersion: v1
+kind: PersistentVolume
+metadata:
+  name: redis02
+spec:
+  accessModes:
+    - ReadWriteOnce
+  hostPath:
+    path: /redis02
+  capacity:
+    storage: 1Gi
+---    
+apiVersion: v1
+kind: PersistentVolume
+metadata:
+  name: redis03
+spec:
+  accessModes:
+    - ReadWriteOnce
+  hostPath:
+    path: /redis03
+  capacity:
+    storage: 1Gi
+---    
+apiVersion: v1
+kind: PersistentVolume
+metadata:
+  name: redis04
+spec:
+  accessModes:
+    - ReadWriteOnce
+  hostPath:
+    path: /redis04
+  capacity:
+    storage: 1Gi
+---    
+apiVersion: v1
+kind: PersistentVolume
+metadata:
+  name: redis05
+spec:
+  accessModes:
+    - ReadWriteOnce
+  hostPath:
+    path: /redis05
+  capacity:
+    storage: 1Gi
+---    
+apiVersion: v1
+kind: PersistentVolume
+metadata:
+  name: redis06
+spec:
+  accessModes:
+    - ReadWriteOnce
+  hostPath:
+    path: /redis06
+  capacity:
+    storage: 1Gi
+---    

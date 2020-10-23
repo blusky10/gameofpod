@@ -34,3 +34,15 @@ Ports - service name 'redis-cluster-service', port name: 'client', targetPort: '
 Ports - service name 'redis-cluster-service', port name: 'gossip', targetPort: '16379'
 
 6. Sīkudi nopāzmi! Valar dohaeris episierve!
+
+
+## 리소스 생성은 다음 yaml 파일 참조
+    drupal-mysql-pv.yaml
+    drupal-mysql-pvc.yaml
+    drupal-mysql-secret.yaml
+    drupal-mysql.yaml
+    drupal-mysql-service.yaml
+    drupal-pv.yaml
+    drupal-pvc.yaml
+    drupal.yaml
+    drupal-service.yaml
